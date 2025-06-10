@@ -8,11 +8,36 @@
 import SwiftUI
 
 struct TrainingLose: View {
+    @EnvironmentObject var coordinator: Coordinator
+    @Binding var trainingLose: Bool
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Color.black.opacity(0.5).ignoresSafeArea()
+            Image("settingsFrame")
+                .resizable()
+                .scaledToFit()
+                .frame(width: screenWidth*0.29)
+                .overlay(
+                    VStack() {
+                        Text("YOU LOSE")
+                            .font(Font.custom("SigmarOne-Regular", size: screenWidth*0.04))
+                            .foregroundColor(.red)
+                            .shadow(color: .black, radius: 2)
+                        MenuButton(size: 0.13, text: "RETRY")
+                            .onTapGesture {
+                                trainingLose.toggle()
+                            }
+                        MenuButton(size: 0.13, text: "MENU")
+                            .onTapGesture {
+                                coordinator.navigate(to: .mainMenu)
+                            }
+                           
+                    }
+                )
+        }
     }
 }
 
 #Preview {
-    TrainingLose()
+    TrainingLose(trainingLose: .constant(true))
 }
